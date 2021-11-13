@@ -50,6 +50,13 @@ async function run() {
       res.json(result);
     });
 
+    // post one review
+    app.post("/reviews", async (req, res) => {
+      const review = req.body;
+      const result = await reviewCollection.insertOne(review);
+      res.json(result);
+    });
+
     // update user to database
     app.put("/users", async (req, res) => {
       const user = req.body;
@@ -68,6 +75,34 @@ async function run() {
       const result = await userCollection.updateOne(filter, updateDoc);
       res.json(result);
     });
+
+    // status update to database
+    app.put("/orders/update/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = { $set: { status: "shipped" } };
+      const result = await orderCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+      res.json(result);
+    });
+
+    // // update status
+    // app.put("/orders/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   console.log(id);
+    //   // const query = { _id: ObjectId(id) };
+    //   // const updateDoc = {
+    //   //   $set: {
+    //   //     status: "Approved",
+    //   //   },
+    //   // };
+    //   // const result = await orderCollection.updateOne(query, updateDoc);
+    //   res.json("result");
+    // });
 
     // get special one to make admin
     app.get("/users/:email", async (req, res) => {
@@ -102,13 +137,6 @@ async function run() {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await productCollection.findOne(query);
-      res.json(result);
-    });
-
-    // post one review
-    app.post("/reviews", async (req, res) => {
-      const review = req.body;
-      const result = await reviewCollection.insertOne(review);
       res.json(result);
     });
 
