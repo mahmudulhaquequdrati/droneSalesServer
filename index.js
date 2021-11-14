@@ -23,13 +23,10 @@ async function run() {
     await client.connect();
     const database = client.db("droneSales");
     const productCollection = database.collection("products");
-    const reviewCollection = database.collection("reviews");
     const orderCollection = database.collection("orders");
     const userCollection = database.collection("users");
+    const reviewCollection = database.collection("reviews");
 
-    // create a document to insert
-
-    // products
     // post some products
     app.post("/products", async (req, res) => {
       const product = req.body;
@@ -60,7 +57,6 @@ async function run() {
       res.json(result);
     });
 
-    // orders
     // post some orders
     app.post("/orders", async (req, res) => {
       const order = req.body;
@@ -106,7 +102,6 @@ async function run() {
       res.json(result);
     });
 
-    // users
     // post some users to database
     app.post("/users", async (req, res) => {
       const user = req.body;
@@ -145,7 +140,6 @@ async function run() {
       res.json({ admin: isAdmin });
     });
 
-    // reviews
     // post one review
     app.post("/reviews", async (req, res) => {
       const review = req.body;
@@ -166,9 +160,9 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
-  res.send("Welcome to droneSales!");
+  res.send("Welcome to droneSales server!");
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`PORT listening at http://localhost:${port}`);
 });
